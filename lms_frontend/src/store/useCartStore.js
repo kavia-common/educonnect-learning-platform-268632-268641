@@ -83,7 +83,7 @@ export const useCartStore = create(
       initGuestCart() {
         /** Initialize cart for guests from localStorage. */
         const guest = loadGuestCart();
-        set({ items: guest.items || [], initialized: true });
+        set({ items: guest.items || [], initialized: true, userId: null, cartId: null });
       },
 
       // PUBLIC_INTERFACE

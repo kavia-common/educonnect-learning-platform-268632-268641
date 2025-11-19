@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import useAuthStore from "../../store/useAuthStore";
+import useCartStore from "../../store/useCartStore";
 
 /**
  * Sidebar with navigation links for student and instructor areas.
@@ -11,6 +12,8 @@ export default function Sidebar() {
   /** Role-aware sidebar links for dashboards and settings. */
   const { user, profile } = useAuthStore();
   const role = profile?.role;
+  const { items } = useCartStore();
+  const cartCount = items?.length || 0;
 
   const linkStyle = ({ isActive }) => ({
     display: "block",
@@ -51,7 +54,27 @@ export default function Sidebar() {
             </li>
             <li>
               <NavLink to="/cart" style={linkStyle}>
-                Cart
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                  <span>Cart</span>
+                  {cartCount > 0 && (
+                    <span
+                      aria-label={`${cartCount} items in cart`}
+                      style={{
+                        background: "#EF4444",
+                        color: "#fff",
+                        borderRadius: 999,
+                        padding: "0 8px",
+                        fontSize: 12,
+                        fontWeight: 800,
+                        lineHeight: "18px",
+                        minWidth: 18,
+                        textAlign: "center",
+                      }}
+                    >
+                      {cartCount}
+                    </span>
+                  )}
+                </span>
               </NavLink>
             </li>
           </ul>
