@@ -7,6 +7,8 @@ import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
 import AppLayout from "./components/Layout/AppLayout";
+import Catalog from "./pages/courses/Catalog";
+import CourseDetail from "./pages/courses/Detail";
 
 // Simple placeholder components
 const Home = () => (
@@ -28,8 +30,6 @@ const EnrollmentSuccess = () => <div className="card"><h2>Enrollment Success</h2
 const StudentDashboard = () => <div className="card"><h2>Student Dashboard</h2><p>Courses, progress, and more.</p></div>;
 const StudentSettings = () => <div className="card"><h2>Student Settings</h2><p>Update your profile and preferences.</p></div>;
 const InstructorDashboard = () => <div className="card"><h2>Instructor Dashboard</h2><p>Manage courses, students, and earnings.</p></div>;
-const Courses = () => <div className="card"><h2>Courses</h2><p>Catalog listing coming soon.</p></div>;
-const CourseDetail = () => <div className="card"><h2>Course Details</h2><p>Course info, curriculum, reviews.</p></div>;
 
 // PUBLIC_INTERFACE
 function App() {
@@ -86,7 +86,7 @@ function App() {
           }
         />
 
-        <Route path="/courses" element={<Courses />} />
+        <Route path="/courses" element={<Catalog />} />
         <Route path="/courses/:id" element={<CourseDetail />} />
 
         <Route path="*" element={<div className="card"><h2>404</h2><p>Page not found.</p></div>} />
