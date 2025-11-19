@@ -130,6 +130,41 @@ export default function Sidebar() {
                   Dashboard
                 </NavLink>
               </li>
+              <li>
+                <NavLink to="/instructor/courses" style={linkStyle}>
+                  Courses
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/instructor/create" style={linkStyle}>
+                  Create Course
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/instructor/reviews" style={linkStyle}>
+                  Reviews
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/instructor/qa" style={linkStyle}>
+                  Q&A
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/instructor/students" style={linkStyle}>
+                  Students
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/instructor/earnings" style={linkStyle}>
+                  Earnings
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/instructor/settings" style={linkStyle}>
+                  Settings
+                </NavLink>
+              </li>
             </ul>
           </nav>
         </div>

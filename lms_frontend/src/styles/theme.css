@@ -13,6 +13,9 @@
   --shadow-md: 0 4px 6px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.06);
   --transition: 180ms ease-in-out;
 }
+.navbar-instructor-hover li:hover .instructor-menu {
+  display: block !important;
+}
 
 html, body, #root {
   height: 100%;

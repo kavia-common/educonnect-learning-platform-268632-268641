@@ -48,7 +48,7 @@ export default function Header() {
           </Link>
 
           <nav aria-label="Main">
-            <ul style={{ display: "flex", listStyle: "none", padding: 0, margin: 0, gap: 10 }}>
+            <ul className="navbar-instructor-hover" style={{ display: "flex", listStyle: "none", padding: 0, margin: 0, gap: 10 }}>
               <li>
                 <NavLink to="/courses" className="link">
                   Courses
@@ -87,10 +87,33 @@ export default function Header() {
                 </li>
               )}
               {user && profile?.role === "instructor" && (
-                <li>
+                <li style={{ position: "relative" }}>
                   <NavLink to="/instructor/dashboard" className="link">
                     Instructor
                   </NavLink>
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "100%",
+                      left: 0,
+                      background: "var(--surface)",
+                      border: "1px solid #e5e7eb",
+                      borderRadius: 10,
+                      padding: 8,
+                      display: "none",
+                    }}
+                    className="instructor-menu"
+                  >
+                    <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 6 }}>
+                      <li><NavLink to="/instructor/courses" className="link">Courses</NavLink></li>
+                      <li><NavLink to="/instructor/create" className="link">Create Course</NavLink></li>
+                      <li><NavLink to="/instructor/reviews" className="link">Reviews</NavLink></li>
+                      <li><NavLink to="/instructor/qa" className="link">Q&A</NavLink></li>
+                      <li><NavLink to="/instructor/students" className="link">Students</NavLink></li>
+                      <li><NavLink to="/instructor/earnings" className="link">Earnings</NavLink></li>
+                      <li><NavLink to="/instructor/settings" className="link">Settings</NavLink></li>
+                    </ul>
+                  </div>
                 </li>
               )}
             </ul>

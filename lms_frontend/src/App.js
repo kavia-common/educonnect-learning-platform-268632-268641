@@ -18,6 +18,14 @@ import StudentWishlist from "./pages/student/Wishlist";
 import StudentQA from "./pages/student/QA";
 import StudentSettings from "./pages/student/Settings";
 import StudentProfileEdit from "./pages/student/ProfileEdit";
+import InstructorDashboard from "./pages/instructor/Dashboard";
+import InstructorCourses from "./pages/instructor/Courses";
+import InstructorCreateCourse from "./pages/instructor/CreateCourse";
+import InstructorReviews from "./pages/instructor/Reviews";
+import InstructorQA from "./pages/instructor/QA";
+import InstructorStudents from "./pages/instructor/Students";
+import InstructorEarnings from "./pages/instructor/Earnings";
+import InstructorSettings from "./pages/instructor/Settings";
 
 // Simple placeholder components
 const Home = () => (
@@ -33,7 +41,7 @@ const Home = () => (
   </div>
 );
 
-const InstructorDashboard = () => <div className="card"><h2>Instructor Dashboard</h2><p>Manage courses, students, and earnings.</p></div>;
+
 
 // PUBLIC_INTERFACE
 function App() {
@@ -125,6 +133,76 @@ function App() {
             <ProtectedRoute>
               <RequireRole role="instructor">
                 <InstructorDashboard />
+              </RequireRole>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/instructor/courses"
+          element={
+            <ProtectedRoute>
+              <RequireRole role="instructor">
+                <InstructorCourses />
+              </RequireRole>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/instructor/create"
+          element={
+            <ProtectedRoute>
+              <RequireRole role="instructor">
+                <InstructorCreateCourse />
+              </RequireRole>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/instructor/reviews"
+          element={
+            <ProtectedRoute>
+              <RequireRole role="instructor">
+                <InstructorReviews />
+              </RequireRole>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/instructor/qa"
+          element={
+            <ProtectedRoute>
+              <RequireRole role="instructor">
+                <InstructorQA />
+              </RequireRole>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/instructor/students"
+          element={
+            <ProtectedRoute>
+              <RequireRole role="instructor">
+                <InstructorStudents />
+              </RequireRole>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/instructor/earnings"
+          element={
+            <ProtectedRoute>
+              <RequireRole role="instructor">
+                <InstructorEarnings />
+              </RequireRole>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/instructor/settings"
+          element={
+            <ProtectedRoute>
+              <RequireRole role="instructor">
+                <InstructorSettings />
               </RequireRole>
             </ProtectedRoute>
           }
