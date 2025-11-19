@@ -29,14 +29,17 @@ import InstructorSettings from "./pages/instructor/Settings";
 
 // Simple placeholder components
 const Home = () => (
-  <div className="card">
-    <h1>Digital T3 LMS</h1>
-    <p>Welcome to the Learning Management System.</p>
+  <div className="card" style={{ display: "grid", gap: 12 }}>
+    <h1 style={{ marginBottom: 0 }}>Digital T3 LMS</h1>
+    <p style={{ marginTop: 0 }}>Welcome to the Learning Management System.</p>
     <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-      <Link className="btn" to="/courses">Browse Courses</Link>
+      <Link className="btn" to="/courses" aria-label="Browse all courses">Browse Courses</Link>
       <Link className="btn" to="/cart">Cart</Link>
       <Link className="btn" to="/student/dashboard">Student Dashboard</Link>
       <Link className="btn" to="/instructor/dashboard">Instructor Dashboard</Link>
+    </div>
+    <div>
+      <Link className="btn" to="/courses" aria-label="Start learning now">Start learning now →</Link>
     </div>
   </div>
 );

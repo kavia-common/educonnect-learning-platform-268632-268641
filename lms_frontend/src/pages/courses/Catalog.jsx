@@ -42,7 +42,21 @@ export default function Catalog() {
   const offset = (page - 1) * limit;
   const totalPages = Math.max(Math.ceil(totalCount / limit), 1);
 
-  // Update query params in URL when search or page changes
+  // Sync state if user navigates via back/forward buttons by listening to location.search
+  useEffect(() => {
+    const sp = new URLSearchParams(location.search);
+    const newQ = sp.get("q") || "";
+    const newPage = Math.max(parseInt(sp.get("page") || "1", 10), 1);
+    const newLimit = Math.min(Math.max(parseInt(sp.get("limit") || "9", 10), 1), 50);
+
+    // Only set if changed to avoid loops
+    setQ((prev) => (prev !== newQ ? newQ : prev));
+    setPage((prev) => (prev !== newPage ? newPage : prev));
+    setLimit((prev) => (prev !== newLimit ? newLimit : prev));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.search]);
+
+  // Update query params in URL when search or page changes (push state)
   useEffect(() => {
     const sp = new URLSearchParams();
     if (q) sp.set("q", q);
@@ -51,8 +65,7 @@ export default function Catalog() {
     const qs = sp.toString();
     const newUrl = qs ? `/courses?${qs}` : "/courses";
     if (newUrl !== location.pathname + location.search) {
-      // replace rather than push for smoother UX
-      navigate(newUrl, { replace: true });
+      navigate(newUrl); // push to enable back button across paginated search
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q, page, limit]);
@@ -136,7 +149,6 @@ export default function Catalog() {
   const onSearchSubmit = (e) => {
     e.preventDefault();
     setPage(1);
-    // q is already bound to input
   };
 
   const onAddToCart = async (course) => {
@@ -193,7 +205,7 @@ export default function Catalog() {
     <div className="container">
       <div className="card" style={{ marginBottom: 12 }}>
         <h2 style={{ marginTop: 0 }}>Courses</h2>
-        <form onSubmit={onSearchSubmit} style={{ display: "flex", gap: 8, flexWrap: "wrap" }} role="search">
+        <form onSubmit={onSearchSubmit} style={{ display: "flex", gap: 8, flexWrap: "wrap" }} role="search" aria-label="Search catalog">
           <input
             type="search"
             placeholder="Search courses..."
