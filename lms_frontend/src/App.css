@@ -101,4 +101,8 @@
     padding: 8px 16px;
     font-size: 12px;
   }
+  /* Hide sidebar on small screens for cleaner layout */
+  aside[aria-label="Secondary navigation"] {
+    display: none !important;
+  }
 }

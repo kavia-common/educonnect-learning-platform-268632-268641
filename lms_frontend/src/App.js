@@ -6,67 +6,37 @@ import "./App.css";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
+import AppLayout from "./components/Layout/AppLayout";
 
 // Simple placeholder components
 const Home = () => (
-  <div className="container">
-    <div className="card">
-      <h1>Digital T3 LMS</h1>
-      <p>Welcome to the Learning Management System.</p>
-      <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-        <Link className="btn" to="/courses">Browse Courses</Link>
-        <Link className="btn" to="/cart">Cart</Link>
-        <Link className="btn" to="/student/dashboard">Student Dashboard</Link>
-        <Link className="btn" to="/instructor/dashboard">Instructor Dashboard</Link>
-      </div>
+  <div className="card">
+    <h1>Digital T3 LMS</h1>
+    <p>Welcome to the Learning Management System.</p>
+    <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+      <Link className="btn" to="/courses">Browse Courses</Link>
+      <Link className="btn" to="/cart">Cart</Link>
+      <Link className="btn" to="/student/dashboard">Student Dashboard</Link>
+      <Link className="btn" to="/instructor/dashboard">Instructor Dashboard</Link>
     </div>
   </div>
 );
 
-const Cart = () => <div className="container"><div className="card"><h2>Cart</h2><p>Cart details coming soon.</p></div></div>;
-const Checkout = () => <div className="container"><div className="card"><h2>Checkout</h2><p>Checkout flow coming soon.</p></div></div>;
-const EnrollmentSuccess = () => <div className="container"><div className="card"><h2>Enrollment Success</h2><p>Thank you for enrolling!</p></div></div>;
-const StudentDashboard = () => <div className="container"><div className="card"><h2>Student Dashboard</h2><p>Courses, progress, and more.</p></div></div>;
-const StudentSettings = () => <div className="container"><div className="card"><h2>Student Settings</h2><p>Update your profile and preferences.</p></div></div>;
-const InstructorDashboard = () => <div className="container"><div className="card"><h2>Instructor Dashboard</h2><p>Manage courses, students, and earnings.</p></div></div>;
-const Courses = () => <div className="container"><div className="card"><h2>Courses</h2><p>Catalog listing coming soon.</p></div></div>;
-const CourseDetail = () => <div className="container"><div className="card"><h2>Course Details</h2><p>Course info, curriculum, reviews.</p></div></div>;
-
-function NavBar() {
-  const { user, signOut } = useAuthStore();
-  return (
-    <nav style={{ background: "var(--surface)", boxShadow: "var(--shadow-sm)" }}>
-      <div className="container" style={{ display: "flex", gap: 16, alignItems: "center", justifyContent: "space-between" }}>
-        <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-          <Link className="link" to="/">LMS</Link>
-          <Link className="link" to="/courses">Courses</Link>
-          <Link className="link" to="/cart">Cart</Link>
-        </div>
-        <div style={{ display: "flex", gap: 8 }}>
-          {!user ? (
-            <>
-              <Link className="btn" to="/login">Login</Link>
-              <Link className="btn" to="/register">Register</Link>
-            </>
-          ) : (
-            <>
-              <Link className="btn" to="/student/dashboard">Dashboard</Link>
-              <button className="btn" onClick={signOut}>Sign Out</button>
-            </>
-          )}
-        </div>
-      </div>
-    </nav>
-  );
-}
+const Cart = () => <div className="card"><h2>Cart</h2><p>Cart details coming soon.</p></div>;
+const Checkout = () => <div className="card"><h2>Checkout</h2><p>Checkout flow coming soon.</p></div>;
+const EnrollmentSuccess = () => <div className="card"><h2>Enrollment Success</h2><p>Thank you for enrolling!</p></div>;
+const StudentDashboard = () => <div className="card"><h2>Student Dashboard</h2><p>Courses, progress, and more.</p></div>;
+const StudentSettings = () => <div className="card"><h2>Student Settings</h2><p>Update your profile and preferences.</p></div>;
+const InstructorDashboard = () => <div className="card"><h2>Instructor Dashboard</h2><p>Manage courses, students, and earnings.</p></div>;
+const Courses = () => <div className="card"><h2>Courses</h2><p>Catalog listing coming soon.</p></div>;
+const CourseDetail = () => <div className="card"><h2>Course Details</h2><p>Course info, curriculum, reviews.</p></div>;
 
 // PUBLIC_INTERFACE
 function App() {
-  /** App router shell setting up core routes and guards. */
+  /** App router shell setting up core routes and guards with persistent layout. */
   const { user } = useAuthStore();
   return (
-    <div className="App">
-      <NavBar />
+    <AppLayout>
       <Routes>
         <Route path="/" element={<Home />} />
 
@@ -119,9 +89,9 @@ function App() {
         <Route path="/courses" element={<Courses />} />
         <Route path="/courses/:id" element={<CourseDetail />} />
 
-        <Route path="*" element={<div className="container"><div className="card"><h2>404</h2><p>Page not found.</p></div></div>} />
+        <Route path="*" element={<div className="card"><h2>404</h2><p>Page not found.</p></div>} />
       </Routes>
-    </div>
+    </AppLayout>
   );
 }
 

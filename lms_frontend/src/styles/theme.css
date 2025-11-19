@@ -26,6 +26,11 @@ html, body, #root {
   padding: 24px;
 }
 
+/* Ensure main content cards have consistent spacing */
+main .card + .card {
+  margin-top: 12px;
+}
+
 .card {
   background: var(--surface);
   border-radius: var(--radius);
