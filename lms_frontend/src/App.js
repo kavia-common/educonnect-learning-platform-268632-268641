@@ -1,8 +1,11 @@
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, Navigate } from "react-router-dom";
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import RequireRole from "./components/Auth/RequireRole";
 import useAuthStore from "./store/useAuthStore";
 import "./App.css";
+import LoginPage from "./pages/auth/LoginPage";
+import RegisterPage from "./pages/auth/RegisterPage";
+import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
 
 // Simple placeholder components
 const Home = () => (
@@ -20,8 +23,6 @@ const Home = () => (
   </div>
 );
 
-const Login = () => <div className="container"><div className="card"><h2>Login</h2><p>Form coming soon.</p></div></div>;
-const Register = () => <div className="container"><div className="card"><h2>Register</h2><p>Form coming soon.</p></div></div>;
 const Cart = () => <div className="container"><div className="card"><h2>Cart</h2><p>Cart details coming soon.</p></div></div>;
 const Checkout = () => <div className="container"><div className="card"><h2>Checkout</h2><p>Checkout flow coming soon.</p></div></div>;
 const EnrollmentSuccess = () => <div className="container"><div className="card"><h2>Enrollment Success</h2><p>Thank you for enrolling!</p></div></div>;
@@ -62,14 +63,22 @@ function NavBar() {
 // PUBLIC_INTERFACE
 function App() {
   /** App router shell setting up core routes and guards. */
+  const { user } = useAuthStore();
   return (
     <div className="App">
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
 
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/login"
+          element={!user ? <LoginPage /> : <Navigate to="/student/dashboard" replace />}
+        />
+        <Route
+          path="/register"
+          element={!user ? <RegisterPage /> : <Navigate to="/student/dashboard" replace />}
+        />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
 
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
