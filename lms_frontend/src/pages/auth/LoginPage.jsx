@@ -49,7 +49,7 @@ export default function LoginPage() {
         <p style={{ marginTop: 0, color: "#6b7280" }}>Access your learning dashboard</p>
 
         {formError ? (
-          <div style={{ background: "#FEF2F2", color: "#B91C1C", padding: 12, borderRadius: 8, marginBottom: 12 }}>
+          <div role="alert" aria-live="assertive" style={{ background: "#FEF2F2", color: "#B91C1C", padding: 12, borderRadius: 8, marginBottom: 12 }}>
             {formError}
           </div>
         ) : null}
@@ -64,6 +64,8 @@ export default function LoginPage() {
                 id="email"
                 type="email"
                 placeholder="you@example.com"
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? "email-error" : undefined}
                 {...register("email")}
                 style={{
                   width: "100%",
@@ -73,7 +75,7 @@ export default function LoginPage() {
                 }}
               />
               {errors.email && (
-                <div style={{ color: "var(--color-error)", fontSize: 12, marginTop: 4 }}>
+                <div id="email-error" role="alert" aria-live="assertive" style={{ color: "var(--color-error)", fontSize: 12, marginTop: 4 }}>
                   {errors.email.message}
                 </div>
               )}
@@ -87,6 +89,8 @@ export default function LoginPage() {
                 id="password"
                 type="password"
                 placeholder="Your password"
+                aria-invalid={!!errors.password}
+                aria-describedby={errors.password ? "password-error" : undefined}
                 {...register("password")}
                 style={{
                   width: "100%",
@@ -96,7 +100,7 @@ export default function LoginPage() {
                 }}
               />
               {errors.password && (
-                <div style={{ color: "var(--color-error)", fontSize: 12, marginTop: 4 }}>
+                <div id="password-error" role="alert" aria-live="assertive" style={{ color: "var(--color-error)", fontSize: 12, marginTop: 4 }}>
                   {errors.password.message}
                 </div>
               )}

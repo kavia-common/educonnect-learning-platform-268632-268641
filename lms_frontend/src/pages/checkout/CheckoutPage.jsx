@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-hot-toast";
+import Toast from "../../components/UI/Toast";
 import { nanoid } from "nanoid";
 import supabase from "../../supabase/client";
 import useAuthStore from "../../store/useAuthStore";
@@ -80,18 +80,18 @@ export default function CheckoutPage() {
       const code = (couponCode || "").trim().toUpperCase();
       if (!code) {
         setCouponApplied(null);
-        toast("Enter a coupon code");
+        Toast.info("Enter a coupon code");
         return;
       }
       if (code === "SAVE10") {
         setCouponApplied({ code, type: "percent", value: 10 });
-        toast.success("Coupon applied: 10% off");
+        Toast.success("Coupon applied: 10% off");
       } else if (code === "FLAT5") {
         setCouponApplied({ code, type: "fixed", value: 5 });
-        toast.success("Coupon applied: $5 off");
+        Toast.success("Coupon applied: $5 off");
       } else if (code === "FREE") {
         setCouponApplied({ code, type: "percent", value: 100 });
-        toast.success("Coupon applied: 100% off");
+        Toast.success("Coupon applied: 100% off");
       } else {
         setCouponApplied(null);
         setCouponError("Invalid coupon code");
@@ -103,19 +103,19 @@ export default function CheckoutPage() {
 
   const validateBeforePay = () => {
     if (!user?.id) {
-      toast.error("Please login to continue.");
+      Toast.error("Please login to continue.");
       return false;
     }
     if (!items.length) {
-      toast("Your cart is empty");
+      Toast.info("Your cart is empty");
       return false;
     }
     if (!fullName || !email) {
-      toast.error("Please ensure your name and email are present.");
+      Toast.error("Please ensure your name and email are present.");
       return false;
     }
     if (!agree) {
-      toast("Please accept terms to proceed");
+      Toast.info("Please accept terms to proceed");
       return false;
     }
     return true;
@@ -138,7 +138,7 @@ export default function CheckoutPage() {
       // Simulate payment
       const payment = await simulatePayment(total * 100, paymentMethod);
       if (payment.status !== "succeeded") {
-        toast.error("Payment failed. Please try another method.");
+        Toast.error("Payment failed. Please try another method.");
         setPaying(false);
         return;
       }
@@ -197,12 +197,12 @@ export default function CheckoutPage() {
       // Clear cart
       await clearCart();
 
-      toast.success("Payment complete! You're enrolled.");
+      Toast.success("Payment complete! You're enrolled.");
       navigate("/enrollment-success", { replace: true });
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error("Checkout failed:", e);
-      toast.error(e?.message || "Checkout failed");
+      Toast.error(e?.message || "Checkout failed");
     } finally {
       setPaying(false);
     }

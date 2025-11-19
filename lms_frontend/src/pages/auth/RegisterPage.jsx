@@ -94,7 +94,7 @@ export default function RegisterPage() {
         <p style={{ marginTop: 0, color: "#6b7280" }}>Join as a student to start learning</p>
 
         {formError ? (
-          <div style={{ background: "#FEF2F2", color: "#B91C1C", padding: 12, borderRadius: 8, marginBottom: 12 }}>
+          <div role="alert" aria-live="assertive" style={{ background: "#FEF2F2", color: "#B91C1C", padding: 12, borderRadius: 8, marginBottom: 12 }}>
             {formError}
           </div>
         ) : null}
@@ -109,6 +109,8 @@ export default function RegisterPage() {
                 id="full_name"
                 type="text"
                 placeholder="Jane Doe"
+                aria-invalid={!!errors.full_name}
+                aria-describedby={errors.full_name ? "full_name-error" : undefined}
                 {...register("full_name")}
                 style={{
                   width: "100%",
@@ -118,7 +120,7 @@ export default function RegisterPage() {
                 }}
               />
               {errors.full_name && (
-                <div style={{ color: "var(--color-error)", fontSize: 12, marginTop: 4 }}>
+                <div id="full_name-error" role="alert" aria-live="assertive" style={{ color: "var(--color-error)", fontSize: 12, marginTop: 4 }}>
                   {errors.full_name.message}
                 </div>
               )}
@@ -132,6 +134,8 @@ export default function RegisterPage() {
                 id="email"
                 type="email"
                 placeholder="you@example.com"
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? "email-error" : undefined}
                 {...register("email")}
                 style={{
                   width: "100%",
@@ -141,7 +145,7 @@ export default function RegisterPage() {
                 }}
               />
               {errors.email && (
-                <div style={{ color: "var(--color-error)", fontSize: 12, marginTop: 4 }}>
+                <div id="email-error" role="alert" aria-live="assertive" style={{ color: "var(--color-error)", fontSize: 12, marginTop: 4 }}>
                   {errors.email.message}
                 </div>
               )}
@@ -155,6 +159,8 @@ export default function RegisterPage() {
                 id="password"
                 type="password"
                 placeholder="Create a password"
+                aria-invalid={!!errors.password}
+                aria-describedby={errors.password ? "password-error" : undefined}
                 {...register("password")}
                 style={{
                   width: "100%",
@@ -164,7 +170,7 @@ export default function RegisterPage() {
                 }}
               />
               {errors.password && (
-                <div style={{ color: "var(--color-error)", fontSize: 12, marginTop: 4 }}>
+                <div id="password-error" role="alert" aria-live="assertive" style={{ color: "var(--color-error)", fontSize: 12, marginTop: 4 }}>
                   {errors.password.message}
                 </div>
               )}
@@ -178,6 +184,8 @@ export default function RegisterPage() {
                 id="confirm_password"
                 type="password"
                 placeholder="Re-enter your password"
+                aria-invalid={!!errors.confirm_password}
+                aria-describedby={errors.confirm_password ? "confirm_password-error" : undefined}
                 {...register("confirm_password")}
                 style={{
                   width: "100%",
@@ -187,7 +195,7 @@ export default function RegisterPage() {
                 }}
               />
               {errors.confirm_password && (
-                <div style={{ color: "var(--color-error)", fontSize: 12, marginTop: 4 }}>
+                <div id="confirm_password-error" role="alert" aria-live="assertive" style={{ color: "var(--color-error)", fontSize: 12, marginTop: 4 }}>
                   {errors.confirm_password.message}
                 </div>
               )}

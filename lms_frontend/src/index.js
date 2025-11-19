@@ -7,6 +7,7 @@ import './styles/theme.css';
 import App from './App';
 import useAuthStore from './store/useAuthStore';
 import useCartStore from './store/useCartStore';
+import LiveRegion from './components/UI/LiveRegion';
 
 function Bootstrap() {
   // Initialize auth and cart behavior on startup
@@ -34,6 +35,7 @@ function Bootstrap() {
   return (
     <>
       <App />
+      <LiveRegion />
       <Toaster position="top-right" />
     </>
   );

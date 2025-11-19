@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import supabase from "../../supabase/client";
-import { toast } from "react-hot-toast";
+import Toast from "../../components/UI/Toast";
+import Skeleton from "../../components/UI/Skeleton";
+import EmptyState from "../../components/UI/EmptyState";
 import useAuthStore from "../../store/useAuthStore";
 import useCartStore from "../../store/useCartStore";
 
@@ -109,7 +111,7 @@ export default function CourseDetail() {
       } catch (e) {
         // eslint-disable-next-line no-console
         console.error(`Failed loading ${activeTab}`, e);
-        toast.error(`Failed to load ${activeTab}`);
+        Toast.error(`Failed to load ${activeTab}`);
       } finally {
         if (!cancelled) setLoadingTabs(false);
       }
@@ -148,8 +150,9 @@ export default function CourseDetail() {
     if (!course) return;
     try {
       await addCourse(course.id, Number(course.price) || 0);
+      Toast.success("Added to cart");
     } catch (e) {
-      toast.error("Failed to add to cart");
+      Toast.error("Failed to add to cart");
     }
   };
 
@@ -160,7 +163,7 @@ export default function CourseDetail() {
 
   const onToggleWishlist = async () => {
     if (!user?.id) {
-      toast("Please login to use wishlist");
+      Toast.info("Please login to use wishlist");
       return;
     }
     setWishlistBusy(true);
@@ -173,19 +176,19 @@ export default function CourseDetail() {
           .eq("course_id", courseId);
         if (error) throw error;
         setWishlisted(false);
-        toast.success("Removed from wishlist");
+        Toast.success("Removed from wishlist");
       } else {
         const { error } = await supabase
           .from("wishlist")
           .insert([{ user_id: user.id, course_id: courseId }]);
         if (error) throw error;
         setWishlisted(true);
-        toast.success("Added to wishlist");
+        Toast.success("Added to wishlist");
       }
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error("Wishlist toggle failed", e);
-      toast.error("Wishlist action failed");
+      Toast.error("Wishlist action failed");
     } finally {
       setWishlistBusy(false);
     }
@@ -200,7 +203,11 @@ export default function CourseDetail() {
   return (
     <div className="container">
       {loadingCourse ? (
-        <div className="card">Loading course...</div>
+        <div className="card" aria-busy="true" aria-live="polite" style={{ display: "grid", gap: 12 }}>
+          <Skeleton width={120} height={16} />
+          <Skeleton height={22} />
+          <Skeleton.Text lines={5} />
+        </div>
       ) : errorMsg ? (
         <div className="card" style={{ background: "#FEF2F2", color: "#7F1D1D" }}>
           <strong>Error:</strong> {errorMsg}
@@ -209,7 +216,13 @@ export default function CourseDetail() {
           </div>
         </div>
       ) : !course ? (
-        <div className="card">Course not found.</div>
+        <EmptyState
+          title="Course not found"
+          description="This course may have been removed or is unavailable."
+          actionLabel="Back to catalog"
+          to="/courses"
+          ariaLabel="Course not found"
+        />
       ) : (
         <>
           <div className="card" style={{ display: "grid", gap: 8 }}>
@@ -274,11 +287,15 @@ export default function CourseDetail() {
               )}
 
               {activeTab === "curriculum" && (
-                <section>
+                <section aria-busy={loadingTabs}>
                   {loadingTabs ? (
-                    <div>Loading curriculum…</div>
+                    <Skeleton.Text lines={4} />
                   ) : curriculum.length === 0 ? (
-                    <div>No curriculum available.</div>
+                    <EmptyState
+                      title="No curriculum available"
+                      description="The instructor hasn't added curriculum yet."
+                      ariaLabel="No curriculum"
+                    />
                   ) : (
                     <ol style={{ paddingLeft: 18 }}>
                       {curriculum.map((item) => (
@@ -295,11 +312,15 @@ export default function CourseDetail() {
               )}
 
               {activeTab === "reviews" && (
-                <section>
+                <section aria-busy={loadingTabs}>
                   {loadingTabs ? (
-                    <div>Loading reviews…</div>
+                    <Skeleton.Text lines={4} />
                   ) : reviews.length === 0 ? (
-                    <div>No reviews yet.</div>
+                    <EmptyState
+                      title="No reviews yet"
+                      description="Be the first to review this course."
+                      ariaLabel="No reviews"
+                    />
                   ) : (
                     <ul style={{ listStyle: "none", paddingLeft: 0, margin: 0, display: "grid", gap: 8 }}>
                       {reviews.map((r) => (
@@ -319,11 +340,15 @@ export default function CourseDetail() {
               )}
 
               {activeTab === "qa" && (
-                <section>
+                <section aria-busy={loadingTabs}>
                   {loadingTabs ? (
-                    <div>Loading Q&A…</div>
+                    <Skeleton.Text lines={3} />
                   ) : qa.length === 0 ? (
-                    <div>No questions yet.</div>
+                    <EmptyState
+                      title="No questions yet"
+                      description="Have a question about this course? Ask in Q&A."
+                      ariaLabel="No Q&A"
+                    />
                   ) : (
                     <ul style={{ listStyle: "none", paddingLeft: 0, margin: 0, display: "grid", gap: 8 }}>
                       {qa.map((q) => (

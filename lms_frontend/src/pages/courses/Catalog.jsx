@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import supabase from "../../supabase/client";
-import { toast } from "react-hot-toast";
+import Toast from "../../components/UI/Toast";
+import Skeleton from "../../components/UI/Skeleton";
+import EmptyState from "../../components/UI/EmptyState";
 import useAuthStore from "../../store/useAuthStore";
 import useCartStore from "../../store/useCartStore";
 
@@ -140,14 +142,15 @@ export default function Catalog() {
   const onAddToCart = async (course) => {
     try {
       await addCourse(course.id, course.price ?? 0);
+      Toast.success("Added to cart");
     } catch (e) {
-      toast.error("Could not add to cart");
+      Toast.error("Could not add to cart");
     }
   };
 
   const toggleWishlist = async (courseId) => {
     if (!user?.id) {
-      toast("Please login to use wishlist");
+      Toast.info("Please login to use wishlist");
       return;
     }
     try {
@@ -162,7 +165,7 @@ export default function Catalog() {
         const ns = new Set(wishlistSet);
         ns.delete(courseId);
         setWishlistSet(ns);
-        toast.success("Removed from wishlist");
+        Toast.success("Removed from wishlist");
       } else {
         const { error } = await supabase
           .from("wishlist")
@@ -171,12 +174,12 @@ export default function Catalog() {
         const ns = new Set(wishlistSet);
         ns.add(courseId);
         setWishlistSet(ns);
-        toast.success("Added to wishlist");
+        Toast.success("Added to wishlist");
       }
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error("Wishlist toggle failed", e);
-      toast.error("Wishlist action failed");
+      Toast.error("Wishlist action failed");
     }
   };
 
@@ -216,14 +219,52 @@ export default function Catalog() {
       )}
 
       {loading ? (
-        <div className="card">Loading courses...</div>
+        <div
+          className="card"
+          aria-busy="true"
+          aria-live="polite"
+          style={{ display: "grid", gap: 12 }}
+        >
+          <Skeleton.Text lines={2} />
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+              gap: 12,
+            }}
+          >
+            {Array.from({ length: 9 }).map((_, idx) => (
+              <div key={idx} style={{ border: "1px solid #e5e7eb", borderRadius: 12, padding: 12 }}>
+                <Skeleton height={18} />
+                <div style={{ height: 8 }} />
+                <Skeleton.Text lines={3} />
+                <div style={{ height: 8 }} />
+                <Skeleton width={80} height={18} />
+                <div style={{ height: 8 }} />
+                <div style={{ display: "flex", gap: 8 }}>
+                  <Skeleton width={90} height={32} />
+                  <Skeleton width={100} height={32} />
+                  <Skeleton width={80} height={32} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       ) : (
         <>
           {courses.length === 0 ? (
-            <div className="card">No courses found.</div>
+            <EmptyState
+              title="No courses found"
+              description="Try adjusting your search or filters."
+              actionLabel="Browse all"
+              to="/courses"
+              ariaLabel="No courses found"
+            />
           ) : (
             <div
               className="card"
+              role="list"
+              aria-label="Course results"
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
@@ -233,6 +274,7 @@ export default function Catalog() {
               {courses.map((c) => (
                 <article
                   key={c.id}
+                  role="listitem"
                   style={{
                     border: "1px solid #e5e7eb",
                     borderRadius: 12,

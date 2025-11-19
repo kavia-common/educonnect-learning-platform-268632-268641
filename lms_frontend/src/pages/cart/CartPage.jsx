@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useCartStore from "../../store/useCartStore";
 import useAuthStore from "../../store/useAuthStore";
-import { toast } from "react-hot-toast";
+import Toast from "../../components/UI/Toast";
+import EmptyState from "../../components/UI/EmptyState";
 
 /**
  * PUBLIC_INTERFACE
@@ -69,12 +70,12 @@ export default function CartPage() {
 
   const onCheckout = () => {
     if (!items.length) {
-      toast("Your cart is empty");
+      Toast.info("Your cart is empty");
       return;
     }
     // If user not logged in, prompt to log in before checkout
     if (!user) {
-      toast("Please login to continue to checkout");
+      Toast.info("Please login to continue to checkout");
       navigate("/login", { replace: true, state: { from: { pathname: "/checkout" } } });
       return;
     }
@@ -107,10 +108,13 @@ export default function CartPage() {
       {loading ? (
         <div className="card">Loading your cart...</div>
       ) : items.length === 0 ? (
-        <div className="card">
-          <p style={{ marginTop: 0 }}>Your cart is empty.</p>
-          <Link className="link" to="/courses">Browse courses</Link>
-        </div>
+        <EmptyState
+          title="Your cart is empty"
+          description="Looks like you haven't added any courses yet."
+          actionLabel="Browse courses"
+          to="/courses"
+          ariaLabel="Empty cart"
+        />
       ) : (
         <>
           <div className="card" style={{ display: "grid", gap: 12 }}>
