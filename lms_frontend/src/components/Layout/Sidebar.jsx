@@ -94,6 +94,21 @@ export default function Sidebar() {
                 </NavLink>
               </li>
               <li>
+                <NavLink to="/student/courses" style={linkStyle}>
+                  My Courses
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/student/wishlist" style={linkStyle}>
+                  Wishlist
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/student/qa" style={linkStyle}>
+                  Q&A
+                </NavLink>
+              </li>
+              <li>
                 <NavLink to="/student/settings" style={linkStyle}>
                   Settings
                 </NavLink>

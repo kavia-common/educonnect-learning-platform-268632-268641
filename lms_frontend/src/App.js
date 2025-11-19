@@ -12,6 +12,12 @@ import CourseDetail from "./pages/courses/Detail";
 import CartPage from "./pages/cart/CartPage";
 import CheckoutPage from "./pages/checkout/CheckoutPage";
 import EnrollmentSuccessPage from "./pages/checkout/EnrollmentSuccessPage";
+import StudentDashboard from "./pages/student/Dashboard";
+import StudentCourses from "./pages/student/Courses";
+import StudentWishlist from "./pages/student/Wishlist";
+import StudentQA from "./pages/student/QA";
+import StudentSettings from "./pages/student/Settings";
+import StudentProfileEdit from "./pages/student/ProfileEdit";
 
 // Simple placeholder components
 const Home = () => (
@@ -27,8 +33,6 @@ const Home = () => (
   </div>
 );
 
-const StudentDashboard = () => <div className="card"><h2>Student Dashboard</h2><p>Courses, progress, and more.</p></div>;
-const StudentSettings = () => <div className="card"><h2>Student Settings</h2><p>Update your profile and preferences.</p></div>;
 const InstructorDashboard = () => <div className="card"><h2>Instructor Dashboard</h2><p>Manage courses, students, and earnings.</p></div>;
 
 // PUBLIC_INTERFACE
@@ -65,11 +69,51 @@ function App() {
           }
         />
         <Route
+          path="/student/courses"
+          element={
+            <ProtectedRoute>
+              <RequireRole role="student">
+                <StudentCourses />
+              </RequireRole>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/student/wishlist"
+          element={
+            <ProtectedRoute>
+              <RequireRole role="student">
+                <StudentWishlist />
+              </RequireRole>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/student/qa"
+          element={
+            <ProtectedRoute>
+              <RequireRole role="student">
+                <StudentQA />
+              </RequireRole>
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/student/settings"
           element={
             <ProtectedRoute>
               <RequireRole role="student">
                 <StudentSettings />
+              </RequireRole>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/student/settings/profile-edit"
+          element={
+            <ProtectedRoute>
+              <RequireRole role="student">
+                <StudentProfileEdit />
               </RequireRole>
             </ProtectedRoute>
           }
