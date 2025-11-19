@@ -11,6 +11,7 @@ import Catalog from "./pages/courses/Catalog";
 import CourseDetail from "./pages/courses/Detail";
 import CartPage from "./pages/cart/CartPage";
 import CheckoutPage from "./pages/checkout/CheckoutPage";
+import EnrollmentSuccessPage from "./pages/checkout/EnrollmentSuccessPage";
 
 // Simple placeholder components
 const Home = () => (
@@ -26,8 +27,6 @@ const Home = () => (
   </div>
 );
 
-
-const EnrollmentSuccess = () => <div className="card"><h2>Enrollment Success</h2><p>Thank you for enrolling!</p></div>;
 const StudentDashboard = () => <div className="card"><h2>Student Dashboard</h2><p>Courses, progress, and more.</p></div>;
 const StudentSettings = () => <div className="card"><h2>Student Settings</h2><p>Update your profile and preferences.</p></div>;
 const InstructorDashboard = () => <div className="card"><h2>Instructor Dashboard</h2><p>Manage courses, students, and earnings.</p></div>;
@@ -53,7 +52,7 @@ function App() {
 
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
-        <Route path="/enrollment-success" element={<ProtectedRoute><EnrollmentSuccess /></ProtectedRoute>} />
+        <Route path="/enrollment-success" element={<ProtectedRoute><EnrollmentSuccessPage /></ProtectedRoute>} />
 
         <Route
           path="/student/dashboard"
